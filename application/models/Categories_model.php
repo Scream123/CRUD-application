@@ -18,6 +18,16 @@ class Categories_model extends CI_Model
 			return $query->result_array();
 	}
 
+	public function getCategoriesById($id)
+	{
+		$this->db->where('c.id', $id);
+		$this->db->select('c.title')
+			->from('categories c');
+		$query = $this->db->get();
+
+		return $query->result_array();
+	}
+
 	/**
 	 * @param $data
 	 * @return bool
