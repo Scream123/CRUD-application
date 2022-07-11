@@ -13,10 +13,15 @@ $(document).ready(function () {
 		let data = {
 			titleProduct: $('#titleProduct').val(),
 			productCategory: $('#productCategory').val(),
-			price: $('#price').val(),
+			price: String($('#price').val()),
 			description: $('#description').val(),
 			publishedDate: $('#publishedDate').val()
 		};
+		if (data.price < 0) {
+			$(".blockAddProduct").html('Цена должна быть больше нуля').css('background-color', 'red').show();
+			$(".blockAddProduct").fadeOut(2000).fadeOut('slow');
+			return false;
+		}
 		if (data.titleProduct === '' || data.productCategory === '' || data.price === '' || data.description === '' || data.publishedDate === '') {
 			$(".blockAddProduct").html('Заполните все поля').css('background-color', 'red').show();
 			$(".blockAddProduct").fadeOut(2000).fadeOut('slow');
