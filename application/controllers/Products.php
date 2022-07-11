@@ -59,10 +59,13 @@ class Products extends CI_Controller
 		$data['category_id'] = isset($_POST['productCategory']) ? $_POST['productCategory'] : null;
 		$data['price'] = isset($_POST['price']) ? $_POST['price'] : null;
 		$data['published_date'] = isset($_POST['publishedDate']) ? $_POST['publishedDate'] : null;
-		if ($data['title'] !== null &&  $data['category_id'] == 1) {
-			$data['slug'] = 'phone' . '-' .	$data['title'];
-		} elseif ($data['title'] !== null &&  $data['category_id'] == 2) {
-			$data['slug'] = 'notebook' . '-' .	$data['title'];
+			$categoryTitle = $this->categories_model->getCategoriesById($data['category_id']);
+			$category = [];
+			foreach ($categoryTitle as $key => $categoryValue) {
+				$category = $categoryValue;
+			}
+		if ($data['title'] !== null) {
+			$data['slug'] = $category['title'] . '-' .	$data['title'];
 		} else {
 			$data['slug'] = null;
 		}
@@ -300,6 +303,7 @@ class Products extends CI_Controller
 			$resData['success'] = 1;
 			$resData['message'] = 'Поиск товара по статусу успешен';
 			foreach ($res as $product) {
+				//var_dump($product['status']);
 				$counter+=1;
 				if ((int)$product['status'] === 0) {
 					$statusElement = '
