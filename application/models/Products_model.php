@@ -187,7 +187,10 @@ class Products_model extends CI_Model
 
 		return $result;
 	}
-
+	
+	/**
+	 * @return mixed
+	 */
 	public function getStatusByTitle()
 	{
 		$this->db->distinct();
@@ -197,6 +200,5 @@ class Products_model extends CI_Model
 		$result = $query->result_array();
 
 		return $result;
-
 	}
 }
