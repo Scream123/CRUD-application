@@ -195,8 +195,9 @@
 						   value="" id="search-status">
 				<datalist id="status-list">
 				<?php
+				//var_dump($statusId);
 				foreach ($statusId as $status): ?>
-					<option><?= $statusText = (int)$status === 0 ? $statusNotBuy : $statusBuy; ?></option>
+					<option><?= $statusText = (int)$status === 0 ? $statusBuy : $statusNotBuy; ?></option>
 				<?php endforeach; ?>
 			</datalist>
 			<span class="input-group-append">
