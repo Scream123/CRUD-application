@@ -76,7 +76,6 @@ class Products extends CI_Controller
 		if ($res) {
 			$resData['success'] = 1;
 			$resData['message'] = 'Изменения успешно внесены';
-			//$counter  = $countProduct+1 . '.';
 			$counter  = $countProduct+1 . '.';
 			if ((int)$product['status'] === 0) {
 				$statusElement = '
