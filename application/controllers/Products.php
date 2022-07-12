@@ -294,7 +294,6 @@ class Products extends CI_Controller
 		} elseif ($data['filterCategoryTitle'] === $this->statusBuy) {
 			$statusId = 1;
 		} else{
-
 			return $resultData['error'] = 1 ;
 		}
 		$res = $this->products_model->findProductByStatusId($statusId);
@@ -314,8 +313,7 @@ class Products extends CI_Controller
 					$statusElement = '
 						<td>
 							<input type="button" class="status bought btn btn-danger" data-id="1"  value="'.$this->statusBuy.'">
-						</td>
-						';
+						</td>';
 				}
 				$resData['filterData'][] = '<tr class="list-product">
 						<td   class="product_id counter_' . $product['id'] . '" data-id=' . $product['id'] . '">' .  $counter . '</td>
