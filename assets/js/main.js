@@ -10,19 +10,20 @@ $(document).ready(function () {
 		let parentRow = $(this).parents('.list-product');
 		let id = $('td.product_id', parentRow).attr('data-id');
 		$("#product-list tbody").innerHTML = '<tr></tr>';
-		let data = {
+		let postData = {
 			titleProduct: $('#titleProduct').val(),
 			productCategory: $('#productCategory').val(),
 			price: String($('#price').val()),
 			description: $('#description').val(),
 			publishedDate: $('#publishedDate').val()
 		};
-		if (data.price < 0) {
+		if (postData.price < 0) {
 			$(".blockAddProduct").html('Цена должна быть больше нуля').css('background-color', 'red').show();
 			$(".blockAddProduct").fadeOut(2000).fadeOut('slow');
 			return false;
 		}
-		if (data.titleProduct === '' || data.productCategory === '' || data.price === '' || data.description === '' || data.publishedDate === '') {
+		if (postData.titleProduct === '' || postData.productCategory === '' || postData.price === '' ||
+			postData.description === '' || postData.publishedDate === '') {
 			$(".blockAddProduct").html('Заполните все поля').css('background-color', 'red').show();
 			$(".blockAddProduct").fadeOut(2000).fadeOut('slow');
 			return false;
@@ -31,15 +32,13 @@ $(document).ready(function () {
 				type: 'POST',
 				async: true,
 				url: "/products/addProducts",
-				data: data,
+				data: postData,
 				dataType: 'json',
-				success: function (response) {
-					if (response) {
+				success: function (data) {
 						updateTableNumeration();
 						$('#addProductModal').fadeOut();
 						$(".modal-backdrop").fadeOut();
-						$("#product-list tbody").append(response.product_data);
-					}
+						$("#product-list tbody").append(data.filterData);
 				}
 			});
 		}
