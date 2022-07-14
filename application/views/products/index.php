@@ -207,7 +207,6 @@
 		</div>
 
 	</div>
-
 	<br/><br/>
 	<table id="product-list" class="table wy-table-responsive">
 		<thead>
