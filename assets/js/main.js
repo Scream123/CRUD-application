@@ -14,7 +14,6 @@ $(document).ready(function () {
 			titleProduct: $('#titleProduct').val(),
 			productCategory: $('#productCategory').val(),
 			price: String($('#price').val()),
-			description: $('#description').val(),
 			publishedDate: $('#publishedDate').val()
 		};
 		if (postData.price < 0) {
@@ -23,7 +22,7 @@ $(document).ready(function () {
 			return false;
 		}
 		if (postData.titleProduct === '' || postData.productCategory === '' || postData.price === '' ||
-			postData.description === '' || postData.publishedDate === '') {
+			postData.publishedDate === '') {
 			$(".blockAddProduct").html('Заполните все поля').css('background-color', 'red').show();
 			$(".blockAddProduct").fadeOut(2000).fadeOut('slow');
 			return false;
@@ -78,40 +77,51 @@ $(document).ready(function () {
 			status: status,
 			date: date,
 		};
-		$.ajax({
-			type: 'POST',
-			async: true,
-			url: '/products/updateproduct/',
-			data: postData,
-			dataType: 'json',
-			success: function (data) {
-				if (data['success']) {
-					console.log(data['itemParameters']['date']);
-					$('.itemTitle_' +id).text(data['itemParameters']['title']);
-					$('.itemCategoryTitle_' +id).text(data['itemParameters']['category_name']);
-					$('.itemPrice_' +id).text(data['itemParameters']['price']);
-					$('.itemDate_' +id).text(data['itemParameters']['date']);
-					if (Number(data['itemParameters']['status']) === 0) {
-					  $('.itemStatus_' + id).prop('value', 'Не куплен');
-						$('.itemStatus_' + id).attr('data-id', 0);
-						$('.status' + id).attr('class', 'status notBought btn btn-success itemStatus_' + id)
-						$('#editProductModal').fadeOut();
-						$(".modal-backdrop").fadeOut();
-						$("#").html(data['message']).css('background-color', 'green').show();
-						$("#blockEditProduct").fadeOut(2000).fadeOut('slow');
-					} else {
-						$('.itemStatus_' + id).prop('value', 'Куплен');
-						$('.itemStatus_' + id).attr('data-id', 1);
-						$('.itemStatus_' + id).attr('class', 'status bought btn btn-danger itemStatus_' + id);
-						$('#editProductModal').fadeOut();
-						$(".modal-backdrop").fadeOut();
-						$("#").html(data['message']).css('background-color', 'green').show();
-						$("#blockEditProduct").fadeOut(2000).fadeOut('slow');
-					}
+		if (postData.price < 0) {
+			$("#blockEditProduct").html('Цена должна быть больше нуля').css('background-color', 'red').show();
+			$("#blockAddProduct").fadeOut(2000).fadeOut('slow');
+			return false;
+		}
+		if (postData.titleProduct === '' || postData.productCategory === '' || postData.price === '' ||
+			postData.publishedDate === '') {
+			$("#blockAddProduct").html('Заполните все поля').css('background-color', 'red').show();
+			$("#blockAddProduct").fadeOut(2000).fadeOut('slow');
+			return false;
+		} else {
+			$.ajax({
+				type: 'POST',
+				async: true,
+				url: '/products/updateproduct/',
+				data: postData,
+				dataType: 'json',
+				success: function (data) {
+					if (data['success']) {
+						$('.itemTitle_' + id).text(data['itemParameters']['title']);
+						$('.itemCategoryTitle_' + id).text(data['itemParameters']['category_name']);
+						$('.itemPrice_' + id).text(data['itemParameters']['price']);
+						$('.itemDate_' + id).text(data['itemParameters']['date']);
+						if (Number(data['itemParameters']['status']) === 0) {
+							$('.itemStatus_' + id).prop('value', 'Не куплен');
+							$('.itemStatus_' + id).attr('data-id', 0);
+							$('.status' + id).attr('class', 'status notBought btn btn-success itemStatus_' + id)
+							$('#editProductModal').fadeOut();
+							$(".modal-backdrop").fadeOut();
+							$("#").html(data['message']).css('background-color', 'green').show();
+							$("#blockEditProduct").fadeOut(2000).fadeOut('slow');
+						} else {
+							$('.itemStatus_' + id).prop('value', 'Куплен');
+							$('.itemStatus_' + id).attr('data-id', 1);
+							$('.itemStatus_' + id).attr('class', 'status bought btn btn-danger itemStatus_' + id);
+							$('#editProductModal').fadeOut();
+							$(".modal-backdrop").fadeOut();
+							$("#").html(data['message']).css('background-color', 'green').show();
+							$("#blockEditProduct").fadeOut(2000).fadeOut('slow');
+						}
 
+					}
 				}
-			}
-		});
+			});
+		}
 	});
 	$(document).on("click", '.status', function () {
 		let $this = $(this);
@@ -232,7 +242,6 @@ $(document).ready(function () {
 				},
 				dataType: 'json',
 				success: function (data) {
-					console.log(data.filterData)
 					if (data) {
 						$("#product-list tbody:last-child").append(data.filterData);
 					}
@@ -262,7 +271,6 @@ $(document).ready(function () {
 				},
 				dataType: 'json',
 				success: function (data) {
-					console.log(data.filterData)
 					if (data) {
 						$("#product-list tbody:last-child").append(data.filterData);
 					}
