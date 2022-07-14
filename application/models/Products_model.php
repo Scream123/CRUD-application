@@ -187,7 +187,7 @@ class Products_model extends CI_Model
 
 		return $result;
 	}
-	
+
 	/**
 	 * @return mixed
 	 */
